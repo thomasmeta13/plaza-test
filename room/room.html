@@ -1,0 +1,198 @@
+<html>
+
+<head>
+    <link rel="icon" type="image/x-icon" href="../shared/assets/images/loading_logo.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Room</title>
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="gray-translucent" />
+    <!-- *** CHANGE THESE TO COMPONENTS ON YOUR SERVER *** -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-liquid-portal-shader"></script>
+    <script src="../shared/scripts/custom/components.js"></script>
+
+    <link rel="stylesheet" href="../shared/styles/custom.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+    <video id="background-video" autoplay loop muted>
+        <source src="../shared/assets/video/loading_video.mp4" type="video/mp4">
+    </video>
+    <div id="loading_screen">
+        <div id="loading_text">
+        </div>
+        <div id="loading_bar">
+        </div>
+        <div id="loading_label">
+            POWERED BY SOLARITY
+            <img id="loading_logo" src="../shared/assets/images/loading_logo.png" />
+        </div>
+    </div>
+    <div id="scene_wrapper" style="opacity: 0;">
+        <a-scene renderer="antialias: true;
+        colorManagement: true;
+        sortObjects: true;
+        physicallyCorrectLights: true;
+        maxCanvasWidth: 1920;
+        maxCanvasHeight: 1920;" shadow="autoUpdate: false" loading-screen="enabled:false" stats>
+            <!-- assets management system -->
+            <a-assets timeout="100000">
+                <a-asset-item id="room-gltf" src="assets/models/Normal room optimized(3).glb"></a-asset-item>
+                <a-asset-item id="arcade-gltf" src="assets/models/Arcade console.glb"></a-asset-item>
+                <a-asset-item id="atm-gltf" src="assets/models/ATM.glb"></a-asset-item>
+                <a-asset-item id="chair-gltf" src="assets/models/Chair.glb"></a-asset-item>
+
+                <a-asset-item id="vr-gltf" src="assets/models/VR.glb"></a-asset-item>
+                <a-asset-item id="navmesh-gltf" src="assets/models/navmesh.gltf"></a-asset-item>
+
+                <img id="hub-img" src="assets/images/hub.png">
+                <img id="sky-img" src="assets/images/sky.jpg">
+
+                <img id="gif-img1" src="assets/images/gif_img1.jpeg">
+                <img id="gif-img2" src="assets/images/gif_img2.jpeg">
+                <img id="gif-img3" src="assets/images/gif_img3.jpeg">
+                <img id="gif-img4" src="assets/images/gif_img4.jpeg">
+
+            </a-assets>
+
+            <!-- camera -->
+            <a-entity id="player">
+                <a-entity simple-navmesh-constraint="navmesh:#navmesh;fall:0.5;height:1.65;" id="head"
+                          camera="fov: 70; active: true" position="0 1.65 0" wasd-controls="acceleration: 20;"
+                          look-controls="pointerLockEnabled: true; reverseMouseDrag: false">
+                    <a-entity id="cursor" class="mouseOnly" cursor raycaster="far: 10; objects: .clickable"
+                              material="color: white; shader: flat" position="0 0 -0.3"
+                              geometry="primitive: sphere; radius: 0.001">
+                    </a-entity>
+                </a-entity>
+                <!-- Left Controller   -->
+                <a-entity id="leftHand" class="leftController controllerOnly"
+                          hand-controls="hand: left; handModelStyle: lowPoly; color: #15ACCF"
+                          laser-controls="hand: left" vive-controls="hand: left" oculus-touch-controls="hand: left"
+                          windows-motion-controls="hand: left" daydream-controls="hand: left"
+                          gearvr-controls="hand: left" magicleap-controls="hand: left" oculus-go-controls="hand: left"
+                          valve-index-controls="hand: left" vive-focus-controls="hand: left"
+                          generic-tracked-controller-controls="hand: left" raycaster="far: 0; objects: .leftclickable;"
+                          blink-controls="cameraRig: #player; teleportOrigin: #camera; button: trigger; curveShootingSpeed: 10; collisionEntities: .collision; landingMaxAngle: 10"
+                          visible="true"></a-entity>
+                <!-- Right Controller  -->
+                <a-entity id="rightHand" class="rightController controllerOnly"
+                          hand-controls="hand: right; handModelStyle: lowPoly; color: #15ACCF"
+                          laser-controls="hand: right" vive-controls="hand: right" oculus-touch-controls="hand: right"
+                          windows-motion-controls="hand: right" daydream-controls="hand: right"
+                          gearvr-controls="hand: right" magicleap-controls="hand: right"
+                          oculus-go-controls="hand: right" valve-index-controls="hand: right"
+                          vive-focus-controls="hand: right" generic-tracked-controller-controls="hand: right"
+                          raycaster="showLine: true; far: 10; interval: 0; objects: .clickable, a-link;"
+                          line="color: lawngreen; opacity: 0.5" visible="true"></a-entity>
+            </a-entity>
+
+            <!-- models-->
+            <a-gltf-model shadow="cast: true; receive: true" model-info class="model" src="#room-gltf" position="0 0 0"
+                          scale="1 1 1"></a-gltf-model>
+            <a-gltf-model shadow="cast: true; receive: true" model-info class="model" src="#arcade-gltf" position="0 0 0"
+                          scale="1 1 1"></a-gltf-model>
+            <a-gltf-model shadow="cast: true; receive: true" model-info class="model" src="#atm-gltf" position="0 0 0"
+                          scale="1 1 1"></a-gltf-model>
+            <a-gltf-model shadow="cast: true; receive: true" model-info class="model" src="#chair-gltf" position="0 0 0"
+                          scale="1 1 1"></a-gltf-model>
+            <a-gltf-model shadow="cast: true; receive: true" model-info class="model clickable nocollision" src="#vr-gltf"
+                          simple-link="href: ../solarity-build-v-3/dist/index.html" position="0.4 1 -2.6" scale="1 1 1">
+            </a-gltf-model>
+            <!-- nav-mesh: protecting us from running thru walls  -->
+            <a-entity id="navmesh" model-info class="model" gltf-model="#navmesh-gltf" visible="false" position="0 0 0">
+            </a-entity>
+
+            <!-- lights  -->
+            <a-entity position="0 2 0" rotation="0 0 0"
+                      light="type: point; intensity:  5; distance: 10; decay: 1; color:  #FFFFFF; cast-shadow: false; shadowCameraVisible: false;">
+            </a-entity>
+            <a-entity position="2.7 1 -0.35" rotation="-30 110 0"
+                      light="type: spot; intensity:  0.2; distance:0.6; penumbra: 0.5; decay: 1; color:  #FFFFFF; cast-shadow: true; shadow-map-height: 1024; shadow-map-width: 1024; shadowCameraVisible: false;">
+            </a-entity>
+            <!-- ambient light  -->
+            <a-entity light="type: ambient; intensity: 0.2; color:  #FFFFFF; shadowCameraVisible: false;"></a-entity>
+
+            <!-- frames -->
+            <a-plane class="frame" position="-2.25 1.65 -2.93" width="1.1" height="1.1" rotation="0 0 0"
+                     material="shader:standard;" color="#111122">
+            </a-plane>
+            <a-plane class="frame" position="-2.98 1.84 -1.7" width="1.1" height="1.1" rotation="0 90 0"
+                     material="shader:standard;" color="#111122">
+            </a-plane>
+            <a-plane class="frame" position="-2.98 1.47 0.42" width="1.1" height="1.1" rotation="0 90 0"
+                     material="shader:standard;" color="#111122">
+            </a-plane>
+            <a-plane class="frame" position="-2.98 2.06 1.92" width="1.1" height="1.1" rotation="0 90 0"
+                     material="shader:standard;" color="#111122">
+            </a-plane>
+            <a-plane class="frame" position="2.97 2.33 2.15" width="1.1" height="1.1" rotation="0 90 0"
+                     material="shader:standard;" color="#111122">
+            </a-plane>
+
+            <!-- screen  -->
+            <a-plane id="screen" width="2" height="1.2" rotation="0 180 0" material="shader: standard;"
+                     position="0.4065 1.16 2.63" color="#CC22FF">
+                <a-text align="center" rotation="0 0 0" width="0.9" value="FLOOR PRICE" position="0.5 0.3 0.01"
+                        x-offset="0.05" wrap-count="20" color="#FFFFFF"></a-text>
+            </a-plane>
+            <!-- bank screen  -->
+            <a-plane id="bank_screen" width="0.45" height="0.25" rotation="-50 -90 0" material="shader: standard;"
+                     position="2.7 1.56 2.15" color="#CC22FF">
+                <a-text rotation="0 0 0" width="0.45" value="AMOUNT" position="-0.27 0.05 0.01" x-offset="0.05"
+                        wrap-count="20" color="#FFFFFF"></a-text>
+            </a-plane>
+            <!-- portals -->
+            <a-image width="1.5" height="2" class="clickable nocollision" simple-link="href: ../hub/hub.html"
+                     src="#hub-img" position="-1.9 1.1 2.9" rotation="0 0 0" material=" shader: liquid-portal">
+                <a-box color="black" width="1.5" position="0 -1 0" height="0.1" depth="0.1"></a-box>
+                <a-box color="black" width="1.5" position="0 1 0" height="0.1" depth="0.1"></a-box>
+                <a-box color="black" width="0.1" position="0.7 0 0" height="1.9" depth="0.1"></a-box>
+                <a-box color="black" width="0.1" position="-0.7 0 0" height="1.9" depth="0.1"></a-box>
+            </a-image>
+            <a-sky src="#sky-img"></a-sky>
+
+        </a-scene>
+    </div>
+</body>
+
+<script src="../shared/scripts/custom/loading_screen.js"></script>
+<script src="../shared/scripts/custom/utils.js"></script>
+<script src="scripts/custom/frames.js"></script>
+<script src="scripts/custom/screen.js"></script>
+
+
+<script>
+    //acquiring sceneEL
+    var sceneEl = document.querySelector('a-scene');
+    //basically builds all of the dinamic content
+    function build_dynamic_content() {
+        start_frames();
+        start_screen();
+    }
+    //checks if scene has loaded befor building all of the dinamic content
+    function check_scene() {
+        if (sceneEl.hasLoaded) {
+            start_scene()
+        } else {
+            build_loading_screen();
+            sceneEl.addEventListener('loaded', start_scene);
+        }
+    }
+    function start_scene() {
+        build_dynamic_content();
+        choose_controls();
+        pass_controls();
+    }
+    check_scene();
+</script>
+
+
+</html>

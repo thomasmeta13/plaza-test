@@ -1,0 +1,227 @@
+<html>
+
+<head>
+    <link rel="icon" type="image/x-icon" href="../shared/assets/images/loading_logo.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Plaza</title>
+    <meta name="description" content="">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="gray-translucent" />
+    <!-- *** CHANGE THESE TO COMPONENTS ON YOUR SERVER *** -->
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-liquid-portal-shader"></script>
+    <script src="../shared/scripts/custom/components.js"></script>
+    <script src="scripts/presentation.js"></script>
+    <script src="../shared/scripts/custom/highlight.js"></script>
+    <script src="../shared/scripts/custom/info-panel.js"></script>
+
+    <link rel="stylesheet" href="../shared/styles/custom.css">
+
+</head>
+
+<body>
+    <video id="background-video" autoplay loop muted>
+        <source src="../shared/assets/video/loading_video.mp4" type="video/mp4">
+    </video>
+    <div id="loading_screen">
+        <div id="loading_text">
+        </div>
+        <div id="loading_bar">
+        </div>
+        <div id="loading_label">
+            POWERED BY SOLARITY
+            <img id="loading_logo" src="../shared/assets/images/loading_logo.png" />
+        </div>
+    </div>
+    <div id="scene_wrapper" style="opacity: 0;">
+
+        <a-scene renderer="antialias: true;
+              colorManagement: true;
+              sortObjects: true;
+              physicallyCorrectLights: true;
+              maxCanvasWidth: 1920;
+              maxCanvasHeight: 1920;"
+              cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .raycastable">
+            <a-assets timeout="100000">
+                <a-asset-item id="structure" src="assets/models/solar punk (2).glb"></a-asset-item>
+                <a-asset-item id="navmesh-gltf" src="assets/models/collision big.glb"></a-asset-item>
+                <a-asset-item id="passport" src="assets/models/passport.glb"></a-asset-item>
+
+                <img id="sky-img" src="assets/images/sky.jpg" />
+                <img id="pre1-img" src="assets/images/presentazione1.png" />
+                <img id="pre2-img" src="assets/images/presentazione2.png" />
+                <img id="pre3-img" src="assets/images/presentazione3.png" />
+                <img id="try-img" src="assets/images/try.png" />
+                <img id="hub-img" src="assets/images/hub.png" />
+                <img id="gallery-img" src="assets/images/gallery.png"/>
+                <img id="kazetachinu" src="https://cdn.aframe.io/examples/ui/kazetachinu.jpg" />
+                <img id="kazetachinuPoster" src="https://cdn.aframe.io/examples/ui/kazetachinuPoster.jpg" crossorigin="anonymous"/>
+                
+                <a-mixin
+          id="frame"
+          geometry="primitive: plane; width: 0.5783552; height: 0.8192"
+          material="color: white; shader: flat"
+          animation__scale="property: scale; to: 1.2 1.2 1.2; dur: 200; startEvents: mouseenter"
+          animation__scale_reverse="property: scale; to: 1 1 1; dur: 200; startEvents: mouseleave"
+         ></a-mixin>
+         <a-mixin
+          id="poster"
+          geometry="primitive: plane; width: 0.544768; height: 0.786432"
+          material="color: white; shader: flat"
+          material="shader: flat"
+          position="0 0 0.005"
+         ></a-mixin>
+         <a-mixin
+          id="movieImage"
+          geometry="primitive: plane; width: 1.5; height: 0.81"
+          material="src: #ponyo; shader: flat; transparent: true"
+          position="0 0.495 0.002"
+         ></a-mixin>
+
+            </a-assets>
+
+            <a-entity id="player" position="-15 1.6 2" look-controls="pointerLockEnabled: true; reverseMouseDrag: false"
+                      simple-navmesh-constraint="navmesh:#navmesh;fall: 5;height:1.65;" 
+                      wasd-controls="acceleration: 20;">
+                <a-entity id="head" rotation="0 0 0"  camera>
+                    <a-entity id="cursor" class="mouseOnly" cursor="" raycaster="far: 10; objects: .clickable"
+                              material="color: white; shader: flat" position="0 0 -0.3" 
+                              geometry="primitive: sphere; radius: 0.001">
+                    </a-entity>
+                </a-entity>
+                <a-entity id="leftHand" class="leftController controllerOnly"
+                          hand-controls="hand: left; handModelStyle: lowPoly; color: #15ACCF"
+                          laser-controls="hand: left" vive-controls="hand: left" oculus-touch-controls="hand: left"
+                          windows-motion-controls="hand: left" daydream-controls="hand: left"
+                          gearvr-controls="hand: left" magicleap-controls="hand: left" oculus-go-controls="hand: left"
+                          valve-index-controls="hand: left" vive-focus-controls="hand: left"
+                          generic-tracked-controller-controls="hand: left" raycaster="far: 0; objects: .leftclickable;"
+                          blink-controls="cameraRig: #player; teleportOrigin: #camera; button: trigger; curveShootingSpeed: 10; collisionEntities: .collision; landingMaxAngle: 10"
+                          visible="true"></a-entity>
+                <a-entisty id="rightHand" class="rightController controllerOnly"
+                          hand-controls="hand: right; handModelStyle: lowPoly; color: #15ACCF"
+                          laser-controls="hand: right" vive-controls="hand: right" oculus-touch-controls="hand: right"
+                          windows-motion-controls="hand: right" daydream-controls="hand: right"
+                          gearvr-controls="hand: right" magicleap-controls="hand: right"
+                          oculus-go-controls="hand: right" valve-index-controls="hand: right"
+                          vive-focus-controls="hand: right" generic-tracked-controller-controls="hand: right"
+                          raycaster="showLine: true; far: 10; interval: 0; objects: .clickable, a-link;"
+                          line="color: lawngreen; opacity: 0.5" visible="true"></a-entity>
+            </a-entity>
+            <!-- lights -->
+            <!-- ambient light -->
+            <a-entity light="type: ambient; intensity: 0.5; color:  #FFFFFF; shadowCameraVisible: false;"></a-entity>
+            <!-- slider  -->
+            <a-entity rotation="0 -90 0" id="slider" position="40.2 3.85 0.95" sclae="1.1 1.1 1.1"
+                      slideshow="forwardTrigger: #next_image; backwardTrigger: #previous_image; offset: 4.4 0 0; duration: 0.1">
+                <a-image id="big_screen_img" src="#pre1-img" rotation="0 0 0" width="4.4" height="2.4"
+                         position="0 0 0.01"></a-image>
+                <a-image id="big_screen_img" src="#pre2-img" rotation="0 0 0" width="4.4" height="2.4"
+                         position="0 0 0.01"></a-image>
+                <a-image id="big_screen_img" src="#pre3-img" rotation="0 0 0" width="4.4" height="2.4"
+                         position="0 0 0.01"></a-image>
+            </a-entity>
+
+            <a-entity id="menu" highlight>
+                <a-entity id="karigurashiButton" position="-15 1.65 2"  rotation="0 90 0" mixin="frame" class="raycastable menu-button">
+                  <a-entity material="src: #kazetachinuMovieImage;" mixin="poster" position="-15 1.65 2"></a-entity>
+                </a-entity>
+            </a-entity>
+
+            <a-entity
+            id="infoPanel"
+            position="0 0 0.5"
+            info-panel
+            visible="false"
+            scale="0.001 0.001 0.001"
+            geometry="primitive: plane; width: 1.5; height: 1.8"
+            material="color: #333333; shader: flat; transparent: false" class="raycastable">
+                <a-entity id="kazetachinuMovieImage" mixin="movieImage" material="src: #kazetachinu" visible="false"></a-entity>
+                <a-entity id="movieTitle"
+                    position="-0.68 -0.1 0"
+                    text="shader: msdf; anchor: left; width: 1.5; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Ponyo (2003)"></a-entity>
+                <a-entity id="movieDescription"
+                    position="-0.68 -0.2 0"
+                    text="baseline: top; shader: msdf; anchor: left; font: https://cdn.aframe.io/examples/ui/Viga-Regular.json; color: white; value: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."></a-entity>
+            </a-entity>
+            <!-- arrows  -->
+            <a-entity rotation="0 -90 0" position="40.2 3.7 1" id="slider_commands" width="4" height="3">
+                <a-plane text="value: >>; wrap-count: 6; align: center" width=".2" height=".2" id="next_image"
+                         class="clickable nocollision" material="shader: flat;" color="#44AABB" position="2 -1.2 0">
+                </a-plane>
+                <a-plane text="value: ; wrap-count: 6; align: center" width=".2" height=".2" id="previous_image"
+                         class="clickable nocollision" material="shader: flat;" color="#44AABB" position="1.8 -1.2 0">
+                </a-plane>
+            </a-entity>
+            <!-- models -->
+            <a-gltf-model model-info class="model" src="#structure" position="0 0 0" scale="1 1 1" material="opacity: 0.0; transparent: true"></a-gltf-model> 
+            <!-- nav-mesh: protecting us from running thru walls -->
+            <a-entity material="opacity: 0.0; transparent: true">
+                <a-gltf-model id="navmesh" model-info class="model" src="#navmesh-gltf" visible="false" material="opacity: 0.0; transparent: true"></a-gltf-model>
+            </a-entity>
+            <!-- Passport -->
+
+            <a-gltf-model id="passport" model-info class="model" src="#passport" scale="0.3 0.3 0.3" 
+            animation="property: rotation; dur: 20000; to: 0 360 0; loop: true"position="-20 3.5 -2" rotation="0 55 0"></a-gltf-model>
+
+                <!-- portals -->
+                <a-image width="1.5" height="2" class="clickable nocollision" simple-link="href: ../hub/hub.html"
+                src="#hub-img" position="-20 1.6 2" rotation="0 110 0" material=" shader: liquid-portal">
+                   <a-box color="black" width="1.5" position="0 -1 0" height="0.1" depth="0.1"></a-box>
+                   <a-box color="black" width="1.5" position="0 1 0" height="0.1" depth="0.1"></a-box>
+                   <a-box color="black" width="0.1" position="0.7 0 0" height="1.9" depth="0.1"></a-box>
+                   <a-box color="black" width="0.1" position="-0.7 0 0" height="1.9" depth="0.1"></a-box>
+               </a-image>
+               <a-entity text="value: Money Hub;" position="-20 3 0.8" rotation="0 110" scale="3 3 3"></a-entity>
+               <a-image width="1.5" height="2" class="clickable nocollision" simple-link="href: ../hub/hub.html"
+                src="#gallery-img" position="-16 1.6 -3" rotation="0 -45 0" material=" shader: liquid-portal">
+                   <a-box color="black" width="1.5" position="0 -1 0" height="0.1" depth="0.1"></a-box>
+                   <a-box color="black" width="1.5" position="0 1 0" height="0.1" depth="0.1"></a-box>
+                   <a-box color="black" width="0.1" position="0.7 0 0" height="1.9" depth="0.1"></a-box>
+                   <a-box color="black" width="0.1" position="-0.7 0 0" height="1.9" depth="0.1"></a-box>
+               </a-image>
+            <a-sky animation="property: rotation;
+            to: -360 360 -360;
+            dur: 5000000;
+            easing: linear;
+            loop:true" src="#sky-img"></a-sky>
+
+            <!-- <a-entity position="0 0 0" sound="src: #rap; autoplay: true; loop: true; positional: false">
+                </a-entity> -->
+        </a-scene>
+    </div>
+</body>
+>
+<script src="../shared/scripts/custom/loading_screen.js"></script>
+<script src="../shared/scripts/custom/utils.js"></script>
+
+<script>
+    //acquiring sceneEL
+    var sceneEl = document.querySelector('a-scene');
+
+    //checks if scene has loaded befor building all of the dinamic content
+    function check_scene() {
+        if (sceneEl.hasLoaded) {
+            start_scene()
+        } else {
+            build_loading_screen();
+            sceneEl.addEventListener('loaded', start_scene);
+        }
+    }
+    function start_scene() {
+        choose_controls();
+        pass_controls();
+        document.getElementById('next_image').addEventListener('raycaster-intersected', intersected, false);
+        document.getElementById('next_image').addEventListener('raycaster-intersected-cleared', intersectedCleared, false);
+        document.getElementById('previous_image').addEventListener('raycaster-intersected', intersected, false);
+        document.getElementById('previous_image').addEventListener('raycaster-intersected-cleared', intersectedCleared, false);
+    }
+    check_scene();
+</script>
+
+
+</html>
